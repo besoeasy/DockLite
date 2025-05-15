@@ -1,0 +1,84 @@
+{
+  "apps": [
+    {
+      "name": "metube",
+      "description": "Web-based YouTube downloader with a simple interface",
+      "homepage": "https://github.com/alexta69/metube",
+      "category": "media",
+      "command": "docker run -d -p 4000:8081 --restart unless-stopped ghcr.io/alexta69/metube",
+      "port": 4000
+    },
+    {
+      "name": "speedtest",
+      "description": "Self-hosted internet speed test server",
+      "homepage": "https://github.com/librespeed/speedtest",
+      "category": "networking",
+      "command": "docker run -d -p 4001:8080 --restart unless-stopped ghcr.io/librespeed/speedtest",
+      "port": 4001
+    },
+    {
+      "name": "webcheck",
+      "description": "Tool for analyzing website performance and security",
+      "homepage": "https://github.com/lissy93/web-check",
+      "category": "monitoring",
+      "command": "docker run -d -p 4002:3000 --restart on-failure lissy93/web-check",
+      "port": 4002
+    },
+    {
+      "name": "morphos",
+      "description": "Self-hosted server for private file format conversion (images for now, documents coming soon)",
+      "homepage": "https://github.com/danvergara/morphos",
+      "category": "utilities",
+      "command": "docker run -d -p 4003:8080 --restart unless-stopped ghcr.io/danvergara/morphos-server:latest",
+      "port": 4003
+    },
+    {
+      "name": "filedrop",
+      "description": "Simple file sharing and transfer service",
+      "homepage": "https://github.com/besoeasy/file-drop",
+      "category": "filesharing",
+      "command": "docker run -d -p 4004:3232 --restart unless-stopped ghcr.io/besoeasy/file-drop:main",
+      "port": 4004
+    },
+    {
+      "name": "specter-desktop",
+      "description": "A desktop GUI for Bitcoin Core optimised to work with hardware wallets",
+      "homepage": "https://github.com/cryptoadvance/specter-desktop",
+      "category": "cryptocurrency",
+      "command": "docker run -d -p 4006:25441 --restart unless-stopped ghcr.io/cryptoadvance/specter-desktop:v2.1.1",
+      "port": 4006
+    },
+    {
+      "name": "uptime-kuma",
+      "description": "A self-hosted monitoring tool for tracking website and server uptime",
+      "homepage": "https://github.com/louislam/uptime-kuma",
+      "category": "monitoring",
+      "command": "docker run -d -p 4007:3001 --restart  unless-stopped louislam/uptime-kuma:1",
+      "port": 4007
+    },
+    {
+      "name": "myspeed",
+      "description": "A speed test analysis software that stores your internet speed for up to 30 days",
+      "homepage": "https://github.com/gnmyt/myspeed",
+      "category": "networking",
+      "command": "docker run -d -p 4008:5216 -v /dockerlite/myspeed:/myspeed/data --restart unless-stopped germannewsmaker/myspeed",
+      "port": 4008
+    },
+    {
+      "name": "qbittorrent",
+      "description": "An open-source BitTorrent client with a web interface and VPN support",
+      "homepage": "https://github.com/hotio/qbittorrent",
+      "category": "filesharing",
+      "command": "docker run -d -p 4009:8080 -v /dockerlite/qbittorrent:/config -v /home/$USER/downloads:/downloads --restart unless-stopped ghcr.io/hotio/qbittorrent:latest",
+      "port": 4009
+    },
+    {
+      "name": "telearia",
+      "description": "Telegram-Controlled Cloud Downloader for Files and Videos",
+      "homepage": "https://github.com/besoeasy/telearia",
+      "category": "filesharing",
+      "command": "docker run -d --restart unless-stopped -p 4010:6799 -e TELEGRAMBOT=Your-Telegram-Bot-Token ghcr.io/besoeasy/telearia:main",
+      "port": 4010
+    }
+  ]
+}
