@@ -644,12 +644,19 @@
 
             try {
               const response = await fetch("apps.json");
-
               const data = await response.json();
 
-              // Process the data
+              // Process the data and extract port from command
               this.apps = (data.apps || []).map((app) => {
-                return app;
+                // Extract the first -p HOST:CONTAINER from the command
+                let port = null;
+                const portRegex = /-p\s+(\d+):\d+/g;
+                let match = portRegex.exec(app.command);
+                if (match) {
+                  port = match[1];
+                }
+                // If multiple -p, prefer the first one
+                return { ...app, port };
               });
             } catch (e) {
               console.error("Failed to load app list:", e);
