@@ -69,6 +69,13 @@
       "homepage": "https://github.com/besoeasy/telearia",
       "category": "filesharing",
       "command": "docker run -d --restart unless-stopped -p 4010:6799 -p 4011:445 -e TELEGRAMBOT=Your-Telegram-Bot-Token ghcr.io/besoeasy/telearia:main"
+    },
+    {
+      "name": "cobalt",
+      "description": "A privacy-focused, self-hosted web browser proxy (Cobalt fork)",
+      "homepage": "https://github.com/imputnet/cobalt",
+      "category": "utilities",
+      "command": "docker run -d -p 4012:8080 --restart unless-stopped ghcr.io/imputnet/cobalt:latest"
     }
   ]
 }
