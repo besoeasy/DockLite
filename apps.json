@@ -61,7 +61,7 @@
       "description": "An open-source BitTorrent client with a web interface and VPN support",
       "homepage": "https://github.com/hotio/qbittorrent",
       "category": "filesharing",
-      "command": "docker run -d -p 4009:8080 -v /docklite/qbittorrent:/config -v /home/$USER/downloads:/downloads --restart unless-stopped ghcr.io/hotio/qbittorrent:latest"
+      "command": "docker run -d -p 4009:8080 -v /docklite/qbittorrent:/config -v /docklite/downloads:/downloads --restart unless-stopped ghcr.io/hotio/qbittorrent:latest"
     },
     {
       "name": "telearia",
@@ -90,6 +90,27 @@
       "homepage": "https://github.com/usememos/memos",
       "category": "utilities",
       "command": "docker run -d -p 4014:5230 -v /docklite/memos:/var/opt/memos --restart unless-stopped neosmemo/memos:stable"
+    },
+    {
+      "name": "gitea",
+      "description": "A lightweight, self-hosted Git service with a web interface.",
+      "homepage": "https://github.com/go-gitea/gitea",
+      "category": "development",
+      "command": "docker run -d -p 4015:3000 -p 4016:22 --restart unless-stopped -v /docklite/gitea:/data gitea/gitea:latest"
+    },
+    {
+      "name": "jellyfin",
+      "description": "Open-source media system for streaming movies, TV, and music.",
+      "homepage": "https://github.com/jellyfin/jellyfin",
+      "category": "media",
+      "command": "docker run -d -p 4017:8096 -v /docklite/jellyfin:/config -v /docklite/media:/media --restart unless-stopped jellyfin/jellyfin"
+    },
+    {
+      "name": "vaultwarden",
+      "description": "Lightweight Bitwarden-compatible password manager.",
+      "homepage": "https://github.com/dani-garcia/vaultwarden",
+      "category": "utilities",
+      "command": "docker run -d -p 4018:80 -v /docklite/vaultwarden:/data --restart unless-stopped vaultwarden/server:latest"
     }
   ]
 }
