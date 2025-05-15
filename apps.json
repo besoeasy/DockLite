@@ -83,6 +83,13 @@
       "homepage": "https://github.com/duplicati/duplicati",
       "category": "backup",
       "command": "docker run -d -p 4013:8200 --restart unless-stopped duplicati/duplicati"
+    },
+    {
+      "name": "memos",
+      "description": "An open-source, self-hosted memo hub with knowledge management and collaboration features",
+      "homepage": "https://github.com/usememos/memos",
+      "category": "utilities",
+      "command": "docker run -d -p 4014:5230 -v /docklite/memos:/var/opt/memos --restart unless-stopped neosmemo/memos:stable"
     }
   ]
 }
