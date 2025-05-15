@@ -76,6 +76,13 @@
       "homepage": "https://github.com/imputnet/cobalt",
       "category": "utilities",
       "command": "docker run -d -p 4012:8080 --restart unless-stopped ghcr.io/imputnet/cobalt:latest"
+    },
+    {
+      "name": "duplicati",
+      "description": "A free backup software to store encrypted backups online for Windows, macOS, and Linux.",
+      "homepage": "https://github.com/duplicati/duplicati",
+      "category": "backup",
+      "command": "docker run -d -p 4013:8200 --restart unless-stopped duplicati/duplicati"
     }
   ]
 }
