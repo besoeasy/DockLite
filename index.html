@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DockLite</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: [
+                "-apple-system",
+                "BlinkMacSystemFont",
+                "San Francisco",
+                "Helvetica Neue",
+                "Helvetica",
+                "Arial",
+                "sans-serif",
+              ],
+            },
+            colors: {
+              "apple-blue": "#0071e3",
+              "apple-gray": "#f5f5f7",
+              "apple-dark": "#1d1d1f",
+              "apple-light": "#fbfbfd",
+              "brand-blue": "#0071e3",
+              "brand-purple": "#5856D6",
+              "brand-pink": "#FF2D55",
+              "brand-orange": "#FF9500",
+              "brand-green": "#34C759",
+              "brand-teal": "#5AC8FA",
+              "brand-yellow": "#FFCC00",
+              "brand-red": "#FF3B30",
+            },
+            boxShadow: {
+              apple: "0 0 20px rgba(0, 0, 0, 0.05)",
+              colored: "0 8px 16px -4px rgba(0, 0, 0, 0.1)",
+            },
+            backdropBlur: {
+              apple: "20px",
+            },
+            backgroundImage: {
+              "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: #f8fafc;
+        color: #1d1d1f;
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Animation for modal */
+      @keyframes modalFadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      [role="dialog"] > div {
+        animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      /* Card hover animation */
+      .app-card {
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .app-card:hover {
+        transform: translateY(-4px);
+      }
+
+      /* Glass effect */
+      .glass {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      /* Focus styles */
+      :focus-visible {
+        outline: 2px solid #0071e3;
+        outline-offset: 2px;
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #d1d1d6;
+        border-radius: 4px;
+      }
+
+      /* Button hover effect */
+      .btn-hover-effect {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-hover-effect:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .btn-hover-effect:hover:after {
+        opacity: 1;
+      }
+
+      /* Category color classes */
+      .category-media {
+        background-color: rgba(255, 45, 85, 0.1);
+        color: #ff2d55;
+      }
+
+      .category-networking {
+        background-color: rgba(88, 86, 214, 0.1);
+        color: #5856d6;
+      }
+
+      .category-monitoring {
+        background-color: rgba(0, 113, 227, 0.1);
+        color: #0071e3;
+      }
+
+      .category-utilities {
+        background-color: rgba(52, 199, 89, 0.1);
+        color: #34c759;
+      }
+
+      .category-filesharing {
+        background-color: rgba(255, 149, 0, 0.1);
+        color: #ff9500;
+      }
+
+      .category-cryptocurrency {
+        background-color: rgba(255, 204, 0, 0.1);
+        color: #ffcc00;
+      }
+
+      .category-other {
+        background-color: rgba(142, 142, 147, 0.1);
+        color: #8e8e93;
+      }
+
+      /* Card border gradients */
+      .border-gradient-blue {
+        border-top: 3px solid #0071e3;
+      }
+
+      .border-gradient-purple {
+        border-top: 3px solid #5856d6;
+      }
+
+      .border-gradient-pink {
+        border-top: 3px solid #ff2d55;
+      }
+
+      .border-gradient-orange {
+        border-top: 3px solid #ff9500;
+      }
+
+      .border-gradient-green {
+        border-top: 3px solid #34c759;
+      }
+
+      .border-gradient-yellow {
+        border-top: 3px solid #ffcc00;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="min-h-screen">
+        <!-- Header -->
+        <header
+          class="sticky top-0 z-10 bg-white/90 border-b border-gray-200 glass"
+        >
+          <div
+            class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center"
+          >
+            <div class="flex items-center space-x-4">
+              <h1
+                class="text-2xl font-medium bg-gradient-to-r from-brand-blue to-brand-purple bg-clip-text text-transparent"
+              >
+                DockLite
+              </h1>
+              <a
+                href="https://github.com/besoeasy/DockLite"
+                target="_blank"
+                class="flex items-center text-sm px-3 py-1.5 rounded-full transition-colors bg-gray-100 hover:bg-gray-200 text-gray-700"
+                aria-label="View on GitHub"
+              >
+                <i data-lucide="github" class="h-4 w-4 mr-1.5"></i>
+                GitHub
+              </a>
+            </div>
+            <div class="flex items-center">
+              <div class="relative">
+                <input
+                  v-model="searchQuery"
+                  type="text"
+                  placeholder="Search apps..."
+                  class="w-64 px-4 py-2 pr-10 rounded-full text-sm transition-colors focus:ring-0 focus:outline-none bg-gray-100 border-transparent text-gray-900 placeholder-gray-500"
+                />
+                <i
+                  data-lucide="search"
+                  class="h-4 w-4 absolute right-3 top-2.5 text-gray-400"
+                ></i>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main class="max-w-6xl mx-auto px-6 py-8">
+          <!-- Category Pills -->
+          <div
+            v-if="!loading && !error && categories.length > 0"
+            class="mb-8 flex flex-wrap gap-2"
+          >
+            <button
+              @click="selectedCategory = ''"
+              class="px-4 py-2 rounded-full text-sm transition-all duration-300 shadow-sm"
+              :class="selectedCategory === '' ? 'bg-gradient-to-r from-brand-blue to-brand-purple text-white' : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'"
+            >
+              All
+            </button>
+            <button
+              v-for="category in categories"
+              :key="category"
+              @click="selectedCategory = category"
+              class="px-4 py-2 rounded-full text-sm transition-all duration-300 shadow-sm"
+              :class="[
+                selectedCategory === category ? 
+                  'bg-gradient-to-r text-white ' + getCategoryGradient(category) : 
+                  'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200',
+                'category-' + category
+              ]"
+            >
+              {{ formatCategory(category) }}
+            </button>
+          </div>
+
+          <!-- Loading State -->
+          <div v-if="loading" class="flex justify-center items-center py-20">
+            <div
+              class="animate-spin rounded-full h-10 w-10 border-2 border-t-transparent border-brand-blue"
+            ></div>
+          </div>
+
+          <!-- Error State -->
+          <div
+            v-else-if="error"
+            class="rounded-2xl p-6 mb-8 bg-red-50 border border-red-100"
+          >
+            <div class="flex items-start">
+              <i
+                data-lucide="alert-triangle"
+                class="h-6 w-6 mr-3 mt-0.5 text-red-500"
+              ></i>
+              <div>
+                <h3 class="text-lg font-medium mb-1 text-red-700">
+                  Unable to load apps
+                </h3>
+                <p class="text-sm mb-4 text-red-600">{{ error }}</p>
+                <button
+                  @click="fetchApps"
+                  class="px-4 py-2 rounded-full text-sm transition-colors btn-hover-effect bg-brand-red text-white hover:bg-opacity-90"
+                >
+                  Try Again
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div
+            v-else-if="filteredApps.length === 0"
+            class="flex flex-col items-center justify-center py-20"
+          >
+            <i data-lucide="folder" class="h-16 w-16 mb-4 text-gray-300"></i>
+            <h3 class="text-xl font-medium mb-1 text-gray-700">
+              No apps found
+            </h3>
+            <p class="text-sm text-gray-500">
+              Try adjusting your search or filter criteria
+            </p>
+          </div>
+
+          <!-- App Grid -->
+          <div
+            v-else
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            <div
+              v-for="app in filteredApps"
+              :key="app.name"
+              @click="showModal(app)"
+              @keydown.enter="showModal(app)"
+              tabindex="0"
+              class="app-card rounded-2xl overflow-hidden flex flex-col h-full transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-blue bg-white shadow-apple"
+              :class="getBorderClass(app.category)"
+            >
+              <div class="p-6 flex flex-col h-full">
+                <h2 class="text-lg font-medium mb-1 text-center">
+                  {{ app.name }}
+                </h2>
+
+                <!-- Category Badge -->
+                <div class="mb-3 flex justify-center">
+                  <span
+                    class="text-xs px-2.5 py-1 rounded-full"
+                    :class="'category-' + app.category"
+                  >
+                    {{ formatCategory(app.category) }}
+                  </span>
+                </div>
+
+                <p class="text-sm mb-4 flex-grow text-gray-600">
+                  {{ app.description }}
+                </p>
+
+                <div class="mt-auto pt-4 border-t border-gray-100">
+                  <div v-if="app.port" class="flex items-center mb-2">
+                    <i
+                      data-lucide="move-horizontal"
+                      class="h-4 w-4 mr-2 text-gray-400"
+                    ></i>
+                    <span class="text-xs text-gray-500">
+                      Port: {{ app.port }}
+                    </span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-400">
+                      {{ getRestartPolicy(app) }}
+                    </span>
+                    <button
+                      class="text-xs px-3 py-1.5 rounded-full transition-colors btn-hover-effect bg-gray-100 text-gray-700"
+                      @click.stop
+                    >
+                      Details
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal -->
+          <div
+            v-if="selectedApp"
+            class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+            @click.self="selectedApp = null"
+            @keydown.esc="selectedApp = null"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div
+              class="rounded-2xl w-full max-w-2xl transition-all transform duration-300 ease-out overflow-hidden bg-white shadow-apple"
+              ref="modalContent"
+            >
+              <div
+                class="flex justify-between items-center p-6 border-b border-gray-100"
+                :class="getHeaderClass(selectedApp.category)"
+              >
+                <div class="flex items-center">
+                  <h3 class="text-xl font-medium text-white">
+                    {{ selectedApp.name }}
+                  </h3>
+                </div>
+                <button
+                  @click="selectedApp = null"
+                  class="text-white hover:text-gray-200 focus:outline-none p-1 rounded-full hover:bg-white/10"
+                  aria-label="Close modal"
+                >
+                  <i data-lucide="x" class="h-6 w-6"></i>
+                </button>
+              </div>
+
+              <div class="p-6">
+                <!-- Open App Button -->
+                <div v-if="selectedApp.port" class="mb-6 flex items-center">
+                  <a
+                    :href="`http://pi.local:${selectedApp.port}`"
+                    target="_blank"
+                    class="inline-flex items-center px-5 py-2.5 rounded-full transition-colors btn-hover-effect"
+                    :class="getButtonClass(selectedApp.category)"
+                  >
+                    <i data-lucide="external-link" class="h-5 w-5 mr-2"></i>
+                    Open App
+                  </a>
+                  <span class="ml-3 text-sm text-gray-500">
+                    http://pi.local:{{ selectedApp.port }}
+                  </span>
+                </div>
+
+                <div class="mb-6">
+                  <h4 class="text-sm font-medium mb-2 text-gray-700">
+                    Details
+                  </h4>
+                  <div class="rounded-xl p-4 bg-gray-50 border border-gray-100">
+                    <div class="text-sm text-gray-700">
+                      <p v-if="selectedApp.description" class="mb-3">
+                        {{ selectedApp.description }}
+                      </p>
+                      <div class="space-y-2">
+                        <p
+                          v-if="selectedApp.category"
+                          class="flex items-center"
+                        >
+                          <span class="font-medium w-24">Category:</span>
+                          <span
+                            class="px-2 py-0.5 rounded-full text-xs"
+                            :class="'category-' + selectedApp.category"
+                          >
+                            {{ formatCategory(selectedApp.category) }}
+                          </span>
+                        </p>
+                        <p class="flex items-center">
+                          <span class="font-medium w-24">Port:</span>
+                          <span>{{ selectedApp.port }}</span>
+                        </p>
+                        <p class="flex items-center">
+                          <span class="font-medium w-24">Restart:</span>
+                          <span>{{ getRestartPolicy(selectedApp) }}</span>
+                        </p>
+                        <p class="flex items-start">
+                          <span class="font-medium w-24">Image:</span>
+                          <code class="px-1 py-0.5 rounded text-xs bg-gray-200">
+                            {{ getImageName(selectedApp) }}
+                          </code>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div v-if="Object.keys(modalEnvVars).length" class="mb-6">
+                  <h4 class="text-sm font-medium mb-2 text-gray-700">
+                    Environment Variables
+                  </h4>
+                  <div class="space-y-3">
+                    <div
+                      v-for="(defaultVal, key) in modalEnvVars"
+                      :key="key"
+                      class="flex items-center"
+                    >
+                      <label
+                        :for="'env-' + key"
+                        class="w-40 text-xs font-medium text-gray-600"
+                      >
+                        {{ key }}
+                      </label>
+                      <input
+                        :id="'env-' + key"
+                        v-model="envInputs[key]"
+                        type="text"
+                        class="flex-1 px-3 py-2 rounded border border-gray-200 bg-white text-sm"
+                        :placeholder="defaultVal"
+                        autocomplete="off"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between items-center mb-2">
+                    <h4 class="text-sm font-medium text-gray-700">
+                      Docker Run Command
+                    </h4>
+                    <button
+                      @click="copyToClipboard"
+                      class="text-xs px-3 py-1 rounded-full transition-colors btn-hover-effect"
+                      :class="copied ? 'bg-brand-green bg-opacity-10 text-brand-green' : 'bg-gray-100 text-gray-700'"
+                      aria-label="Copy to clipboard"
+                    >
+                      {{ copied ? 'Copied!' : 'Copy' }}
+                    </button>
+                  </div>
+                  <div class="relative">
+                    <pre
+                      class="rounded-xl p-4 overflow-x-auto text-sm bg-gray-50 border border-gray-100 text-green-600"
+                    >
+{{ getDockerCommand(selectedApp) }}</pre
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-6 border-t flex justify-end border-gray-100">
+                <a
+                  v-if="selectedApp.homepage"
+                  :href="selectedApp.homepage"
+                  target="_blank"
+                  class="mr-3 px-4 py-2 rounded-full transition-colors btn-hover-effect bg-gray-100 text-gray-700 hover:bg-gray-200"
+                >
+                  Visit Homepage
+                </a>
+                <button
+                  @click="selectedApp = null"
+                  class="px-4 py-2 rounded-full transition-colors btn-hover-effect"
+                  :class="getButtonClass(selectedApp.category)"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-12 py-6 border-t border-gray-200 bg-white">
+          <div
+            class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center"
+          >
+            <div class="mb-4 sm:mb-0">
+              <p class="text-sm text-gray-500">
+                A lightweight alternative for managing Docker containers
+              </p>
+            </div>
+            <div class="flex items-center">
+              <a
+                href="https://github.com/besoeasy/DockLite"
+                target="_blank"
+                class="flex items-center text-sm transition-colors text-gray-500 hover:text-gray-700"
+                aria-label="View on GitHub"
+              >
+                <i data-lucide="github" class="h-4 w-4 mr-1.5"></i>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+      const { createApp } = Vue;
+
+      function extractEnvVarsFromCommand(command) {
+        // Find all -e VAR=VAL in the command
+        const envVars = {};
+        const regex = /-e\s+([A-Za-z_][A-Za-z0-9_]*)=([^\s]+)/g;
+        let match;
+        while ((match = regex.exec(command))) {
+          envVars[match[1]] = match[2];
+        }
+        return envVars;
+      }
+
+      createApp({
+        data() {
+          return {
+            apps: [],
+            selectedApp: null,
+            loading: true,
+            error: null,
+            searchQuery: "",
+            selectedCategory: "",
+            copied: false,
+            colorCache: {},
+            envInputs: {}, // user input for env vars
+            modalEnvVars: {}, // env vars for current modal
+          };
+        },
+        computed: {
+          filteredApps() {
+            return this.apps.filter((app) => {
+              // Filter by search query
+              const matchesSearch =
+                this.searchQuery === "" ||
+                app.name
+                  .toLowerCase()
+                  .includes(this.searchQuery.toLowerCase()) ||
+                (app.description &&
+                  app.description
+                    .toLowerCase()
+                    .includes(this.searchQuery.toLowerCase()));
+
+              // Filter by category
+              const matchesCategory =
+                this.selectedCategory === "" ||
+                app.category === this.selectedCategory;
+
+              return matchesSearch && matchesCategory;
+            });
+          },
+          categories() {
+            // Extract unique categories
+            const categorySet = new Set();
+            this.apps.forEach((app) => {
+              if (app.category) {
+                categorySet.add(app.category);
+              }
+            });
+            return Array.from(categorySet).sort();
+          },
+        },
+        methods: {
+          async fetchApps() {
+            this.loading = true;
+            this.error = null;
+
+            try {
+              const response = await fetch("apps.json");
+
+              const data = await response.json();
+
+              // Process the data
+              this.apps = (data.apps || []).map((app) => {
+                return app;
+              });
+            } catch (e) {
+              console.error("Failed to load app list:", e);
+              this.error = e.message || "Failed to load app list";
+            } finally {
+              this.loading = false;
+            }
+          },
+          formatCategory(category) {
+            if (!category) return "Other";
+
+            // Capitalize first letter of each word
+            return category
+              .split(" ")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" ");
+          },
+          getRestartPolicy(app) {
+            if (!app.command) return "No restart policy";
+
+            // Extract restart policy from command
+            const match = app.command.match(/--restart\s+([^\s]+)/);
+            return match ? match[1] : "No restart policy";
+          },
+          getImageName(app) {
+            if (!app.command) return "";
+
+            // Extract image name from command (last part of the command)
+            const parts = app.command.trim().split(/\s+/);
+            return parts[parts.length - 1];
+          },
+          getDockerCommand(app) {
+            if (!app || !app.command) return "";
+
+            // If env vars are present in command, replace them with user input
+            let cmd = app.command;
+
+            // Remove all -e VAR=VAL from command
+            cmd = cmd
+              .replace(/-e\s+[A-Za-z_][A-Za-z0-9_]*=[^\s]+/g, "")
+              .replace(/\s+/g, " ")
+              .trim();
+
+            // Compose -e flags from modalEnvVars/envInputs
+            let envFlags = "";
+            if (
+              this.modalEnvVars &&
+              Object.keys(this.modalEnvVars).length > 0
+            ) {
+              Object.entries(this.modalEnvVars).forEach(([key, defaultVal]) => {
+                const val =
+                  this.envInputs[key] !== undefined
+                    ? this.envInputs[key]
+                    : defaultVal;
+                if (val && val !== "") {
+                  envFlags += ` -e ${key}=${val}`;
+                }
+              });
+            }
+
+            // Insert envFlags after 'docker run -d' or 'docker run -d --name ...'
+            const runMatch = cmd.match(/^(docker run -d(?: --name [^\s]+)?)/);
+            if (runMatch) {
+              cmd = cmd.replace(runMatch[1], runMatch[1] + envFlags);
+            } else {
+              cmd += envFlags;
+            }
+
+            // Ensure --name is set to app.name
+            if (cmd.includes("--name")) {
+              cmd = cmd.replace(/--name\s+[^\s]+/, `--name ${app.name}`);
+            } else {
+              cmd = cmd.replace(
+                "docker run -d",
+                `docker run -d --name ${app.name}`
+              );
+            }
+
+            return cmd.trim();
+          },
+          getBorderClass(category) {
+            if (!category) return "border-gradient-blue";
+
+            switch (category.toLowerCase()) {
+              case "media":
+                return "border-gradient-pink";
+              case "networking":
+                return "border-gradient-purple";
+              case "monitoring":
+                return "border-gradient-blue";
+              case "utilities":
+                return "border-gradient-green";
+              case "filesharing":
+                return "border-gradient-orange";
+              case "cryptocurrency":
+                return "border-gradient-yellow";
+              default:
+                return "border-gradient-blue";
+            }
+          },
+          getHeaderClass(category) {
+            if (!category) return "bg-brand-blue";
+
+            switch (category.toLowerCase()) {
+              case "media":
+                return "bg-brand-pink";
+              case "networking":
+                return "bg-brand-purple";
+              case "monitoring":
+                return "bg-brand-blue";
+              case "utilities":
+                return "bg-brand-green";
+              case "filesharing":
+                return "bg-brand-orange";
+              case "cryptocurrency":
+                return "bg-brand-yellow";
+              default:
+                return "bg-brand-blue";
+            }
+          },
+          getButtonClass(category) {
+            if (!category) return "bg-brand-blue text-white";
+
+            switch (category.toLowerCase()) {
+              case "media":
+                return "bg-brand-pink text-white";
+              case "networking":
+                return "bg-brand-purple text-white";
+              case "monitoring":
+                return "bg-brand-blue text-white";
+              case "utilities":
+                return "bg-brand-green text-white";
+              case "filesharing":
+                return "bg-brand-orange text-white";
+              case "cryptocurrency":
+                return "bg-brand-yellow text-white";
+              default:
+                return "bg-brand-blue text-white";
+            }
+          },
+          getCategoryGradient(category) {
+            if (!category) return "from-brand-blue to-brand-purple";
+
+            switch (category.toLowerCase()) {
+              case "media":
+                return "from-brand-pink to-brand-red";
+              case "networking":
+                return "from-brand-purple to-brand-blue";
+              case "monitoring":
+                return "from-brand-blue to-brand-teal";
+              case "utilities":
+                return "from-brand-teal to-brand-green";
+              case "filesharing":
+                return "from-brand-orange to-brand-yellow";
+              case "cryptocurrency":
+                return "from-brand-yellow to-brand-orange";
+              default:
+                return "from-brand-blue to-brand-purple";
+            }
+          },
+          showModal(app) {
+            this.selectedApp = app;
+            this.copied = false;
+
+            // Extract env vars from command if present
+            this.modalEnvVars = extractEnvVarsFromCommand(app.command);
+            // Initialize envInputs with defaults
+            this.envInputs = {};
+            Object.entries(this.modalEnvVars).forEach(([key, val]) => {
+              this.envInputs[key] = val;
+            });
+
+            // Focus trap for accessibility
+            setTimeout(() => {
+              const modalContent = this.$refs.modalContent;
+              if (modalContent) {
+                modalContent.focus();
+              }
+            }, 100);
+          },
+          copyToClipboard() {
+            if (!this.selectedApp) return;
+
+            navigator.clipboard
+              .writeText(this.getDockerCommand(this.selectedApp))
+              .then(() => {
+                this.copied = true;
+                setTimeout(() => {
+                  this.copied = false;
+                }, 2000);
+              })
+              .catch((err) => {
+                console.error("Failed to copy: ", err);
+              });
+          },
+        },
+        mounted() {
+          // Initialize Lucide icons
+          lucide.createIcons();
+
+          // Fetch apps from the provided URL
+          this.fetchApps();
+
+          // Add keyboard event listener for ESC key
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && this.selectedApp) {
+              this.selectedApp = null;
+            }
+          });
+        },
+        updated() {
+          // Re-initialize Lucide icons when the DOM updates
+          lucide.createIcons();
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
