@@ -688,51 +688,34 @@
             const parts = app.command.trim().split(/\s+/);
             return parts[parts.length - 1];
           },
+          // Remove --name from the original command, always add --name docklite-${app.name}
           getDockerCommand(app) {
             if (!app || !app.command) return "";
 
-            // If env vars are present in command, replace them with user input
-            let cmd = app.command;
-
             // Remove all -e VAR=VAL from command
-            cmd = cmd
+            let cmd = app.command
               .replace(/-e\s+[A-Za-z_][A-Za-z0-9_]*=[^\s]+/g, "")
+              .replace(/--name\s+[^\s]+/g, "") // Remove any --name from command
               .replace(/\s+/g, " ")
               .trim();
 
             // Compose -e flags from modalEnvVars/envInputs
             let envFlags = "";
-            if (
-              this.modalEnvVars &&
-              Object.keys(this.modalEnvVars).length > 0
-            ) {
+            if (this.modalEnvVars && Object.keys(this.modalEnvVars).length > 0) {
               Object.entries(this.modalEnvVars).forEach(([key, defaultVal]) => {
-                const val =
-                  this.envInputs[key] !== undefined
-                    ? this.envInputs[key]
-                    : defaultVal;
+                const val = this.envInputs[key] !== undefined ? this.envInputs[key] : defaultVal;
                 if (val && val !== "") {
                   envFlags += ` -e ${key}=${val}`;
                 }
               });
             }
 
-            // Insert envFlags after 'docker run -d' or 'docker run -d --name ...'
-            const runMatch = cmd.match(/^(docker run -d(?: --name [^\s]+)?)/);
+            // Always add --name docklite-${app.name} after 'docker run -d'
+            const runMatch = cmd.match(/^(docker run -d)/);
             if (runMatch) {
-              cmd = cmd.replace(runMatch[1], runMatch[1] + envFlags);
+              cmd = cmd.replace(runMatch[1], `${runMatch[1]} --name docklite-${app.name}${envFlags}`);
             } else {
-              cmd += envFlags;
-            }
-
-            // Ensure --name is set to app.name
-            if (cmd.includes("--name")) {
-              cmd = cmd.replace(/--name\s+[^\s]+/, `--name ${app.name}`);
-            } else {
-              cmd = cmd.replace(
-                "docker run -d",
-                `docker run -d --name ${app.name}`
-              );
+              cmd += ` --name docklite-${app.name}${envFlags}`;
             }
 
             return cmd.trim();
