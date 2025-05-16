@@ -646,7 +646,8 @@
               const response = await fetch("apps.json");
               const data = await response.json();
 
-              // Process the data and extract port from command
+              data.apps.sort(() => Math.random() - 0.5);
+
               this.apps = (data.apps || []).map((app) => {
                 // Extract the first -p HOST:CONTAINER from the command
                 let port = null;
@@ -701,9 +702,15 @@
 
             // Compose -e flags from modalEnvVars/envInputs
             let envFlags = "";
-            if (this.modalEnvVars && Object.keys(this.modalEnvVars).length > 0) {
+            if (
+              this.modalEnvVars &&
+              Object.keys(this.modalEnvVars).length > 0
+            ) {
               Object.entries(this.modalEnvVars).forEach(([key, defaultVal]) => {
-                const val = this.envInputs[key] !== undefined ? this.envInputs[key] : defaultVal;
+                const val =
+                  this.envInputs[key] !== undefined
+                    ? this.envInputs[key]
+                    : defaultVal;
                 if (val && val !== "") {
                   envFlags += ` -e ${key}=${val}`;
                 }
@@ -713,7 +720,10 @@
             // Always add --name docklite-${app.name} after 'docker run -d'
             const runMatch = cmd.match(/^(docker run -d)/);
             if (runMatch) {
-              cmd = cmd.replace(runMatch[1], `${runMatch[1]} --name docklite-${app.name}${envFlags}`);
+              cmd = cmd.replace(
+                runMatch[1],
+                `${runMatch[1]} --name docklite-${app.name}${envFlags}`
+              );
             } else {
               cmd += ` --name docklite-${app.name}${envFlags}`;
             }
