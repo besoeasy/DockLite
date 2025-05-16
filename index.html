@@ -254,6 +254,21 @@
         </header>
 
         <main class="max-w-6xl mx-auto px-6 py-8">
+          <!-- Server URL Input -->
+          <div class="mb-8 flex items-center gap-3">
+            <label for="server-url" class="text-sm font-medium text-gray-700">Server URL:</label>
+            <input
+              id="server-url"
+              v-model="serverUrl"
+              @change="saveServerUrl"
+              type="text"
+              class="w-72 px-4 py-2 rounded-full text-sm bg-gray-100 border border-gray-200 text-gray-900 placeholder-gray-500"
+              placeholder="http://pi.local"
+              autocomplete="off"
+            />
+            <span v-if="serverUrl !== 'http://pi.local'" class="text-xs text-gray-400">(Saved)</span>
+          </div>
+
           <!-- Category Pills -->
           <div
             v-if="!loading && !error && categories.length > 0"
@@ -422,7 +437,7 @@
                 <!-- Open App Button -->
                 <div v-if="selectedApp.port" class="mb-6 flex items-center">
                   <a
-                    :href="`http://pi.local:${selectedApp.port}`"
+                    :href="`${serverUrl}:${selectedApp.port}`"
                     target="_blank"
                     class="inline-flex items-center px-5 py-2.5 rounded-full transition-colors btn-hover-effect"
                     :class="getButtonClass(selectedApp.category)"
@@ -431,7 +446,7 @@
                     Open App
                   </a>
                   <span class="ml-3 text-sm text-gray-500">
-                    http://pi.local:{{ selectedApp.port }}
+                    {{ serverUrl }}:{{ selectedApp.port }}
                   </span>
                 </div>
 
@@ -615,6 +630,7 @@
 
       createApp({
         data() {
+          let storedServerUrl = localStorage.getItem('dockliteServerUrl') || 'http://pi.local';
           return {
             apps: [],
             selectedApp: null,
@@ -627,6 +643,7 @@
             colorCache: {},
             envInputs: {}, // user input for env vars
             modalEnvVars: {}, // env vars for current modal
+            serverUrl: storedServerUrl, // user-specified server URL
           };
         },
         computed: {
@@ -663,6 +680,9 @@
           },
         },
         methods: {
+          saveServerUrl() {
+            localStorage.setItem('dockliteServerUrl', this.serverUrl);
+          },
           async fetchApps() {
             this.loading = true;
             this.error = null;
@@ -888,6 +908,9 @@
               .catch((err) => {
                 console.error("Failed to copy uninstall command: ", err);
               });
+          },
+          saveServerUrl() {
+            localStorage.setItem('dockliteServerUrl', this.serverUrl);
           },
         },
         mounted() {
