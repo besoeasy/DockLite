@@ -526,6 +526,30 @@
                     >
                   </div>
                 </div>
+
+                <!-- Uninstall Command Section -->
+                <div class="mt-4">
+                  <div class="flex justify-between items-center mb-2">
+                    <h4 class="text-sm font-medium text-gray-700">
+                      Uninstall Command
+                    </h4>
+                    <button
+                      @click="copyUninstallToClipboard"
+                      class="text-xs px-3 py-1 rounded-full transition-colors btn-hover-effect"
+                      :class="uninstallCopied ? 'bg-brand-green bg-opacity-10 text-brand-green' : 'bg-gray-100 text-gray-700'"
+                      aria-label="Copy uninstall command to clipboard"
+                    >
+                      {{ uninstallCopied ? 'Copied!' : 'Copy' }}
+                    </button>
+                  </div>
+                  <div class="relative">
+                    <pre
+                      class="rounded-xl p-4 overflow-x-auto text-sm bg-gray-50 border border-gray-100 text-red-600"
+                    >
+{{ getUninstallCommand(selectedApp) }}</pre
+                    >
+                  </div>
+                </div>
               </div>
 
               <div class="p-6 border-t flex justify-end border-gray-100">
@@ -599,6 +623,7 @@
             searchQuery: "",
             selectedCategory: "",
             copied: false,
+            uninstallCopied: false, // state for uninstall copy button
             colorCache: {},
             envInputs: {}, // user input for env vars
             modalEnvVars: {}, // env vars for current modal
@@ -730,6 +755,10 @@
 
             return cmd.trim();
           },
+          getUninstallCommand(app) {
+            if (!app || !app.name) return "";
+            return `docker rm -f docklite-${app.name}`;
+          },
           getBorderClass(category) {
             if (!category) return "border-gradient-blue";
 
@@ -843,6 +872,21 @@
               })
               .catch((err) => {
                 console.error("Failed to copy: ", err);
+              });
+          },
+          copyUninstallToClipboard() {
+            if (!this.selectedApp) return;
+
+            navigator.clipboard
+              .writeText(this.getUninstallCommand(this.selectedApp))
+              .then(() => {
+                this.uninstallCopied = true;
+                setTimeout(() => {
+                  this.uninstallCopied = false;
+                }, 2000);
+              })
+              .catch((err) => {
+                console.error("Failed to copy uninstall command: ", err);
               });
           },
         },
