@@ -1,4 +1,4 @@
-```markdown
+
 # Dock Lite Setup
 
 **Folder**: `/home/$USER/docklite/downloads`
@@ -39,5 +39,4 @@ Save and exit: `Ctrl+O`, `Enter`, `Ctrl+X`
 ### 4. Restart Samba
 ```bash
 sudo systemctl restart smbd
-```
 ```
