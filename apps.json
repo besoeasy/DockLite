@@ -68,7 +68,7 @@
       "description": "Telegram-Controlled Cloud Downloader for Files and Videos",
       "homepage": "https://github.com/besoeasy/telearia",
       "category": "filesharing",
-      "command": "docker run -d --restart unless-stopped -p 4010:6799 -v $HOME/docklite/downloads:/tmp/telearia -e TELEGRAMBOT=Your-Telegram-Bot-Token ghcr.io/besoeasy/telearia:main"
+      "command": "docker run -d --restart unless-stopped -p 6799:6799 -p 6881:6881  -v $HOME/docklite/downloads:/tmp/telearia -e TELEGRAMBOT=Your-Telegram-Bot-Token ghcr.io/besoeasy/telearia:main"
     },
     {
       "name": "cobalt",
