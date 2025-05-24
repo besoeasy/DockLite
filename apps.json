@@ -251,6 +251,41 @@
       "homepage": "https://github.com/wallabag/wallabag",
       "category": "utilities",
       "command": "docker run -d -p 4075:80 -v $HOME/docklite/wallabag:/var/www/wallabag/data --restart unless-stopped wallabag/wallabag:latest"
+    },
+    {
+      "name": "nostr-relay",
+      "description": "Self-hosted Nostr relay server for decentralized social networking",
+      "homepage": "https://github.com/scsibug/nostr-rs-relay",
+      "category": "communication",
+      "command": "docker run -d -p 4076:8080 -v $HOME/docklite/nostr-relay:/usr/src/app/db --restart unless-stopped scsibug/nostr-rs-relay:latest"
+    },
+    {
+      "name": "strfry",
+      "description": "High-performance Nostr relay written in C++",
+      "homepage": "https://github.com/hoytech/strfry",
+      "category": "communication", 
+      "command": "docker run -d -p 4077:7777 -v $HOME/docklite/strfry:/app/strfry-db --restart unless-stopped ghcr.io/hoytech/strfry:latest"
+    },
+    {
+      "name": "nostrudel",
+      "description": "Web-based Nostr client for browsing and posting to the decentralized network",
+      "homepage": "https://github.com/hzrd149/nostrudel",
+      "category": "communication",
+      "command": "docker run -d -p 4078:3000 --restart unless-stopped ghcr.io/hzrd149/nostrudel:latest"
+    },
+    {
+      "name": "coracle",
+      "description": "Web-based Nostr client with advanced features and clean interface",
+      "homepage": "https://github.com/coracle-social/coracle",
+      "category": "communication",
+      "command": "docker run -d -p 4079:80 --restart unless-stopped stakerrewards/coracle:latest"
+    },
+    {
+      "name": "nostr-wine",
+      "description": "Simple Nostr web client for reading and writing notes",
+      "homepage": "https://github.com/jiftechnify/nostr-wine",
+      "category": "communication",
+      "command": "docker run -d -p 4080:3000 --restart unless-stopped ghcr.io/jiftechnify/nostr-wine:latest"
     }
   ]
 }
