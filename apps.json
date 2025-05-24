@@ -127,20 +127,6 @@
       "command": "docker run -d -p 4020:5000 --restart unless-stopped benbusby/whoogle-search:latest"
     },
     {
-      "name": "photoprism",
-      "description": "AI-powered photos app for browsing, organizing, and sharing your photo collection.",
-      "homepage": "https://github.com/photoprism/photoprism",
-      "category": "media",
-      "command": "docker run -d -p 4024:2342 -v $HOME/docklite/photoprism:/photoprism/storage --restart unless-stopped photoprism/photoprism:latest"
-    },
-    {
-      "name": "monica",
-      "description": "Personal CRM to organize contacts and relationships.",
-      "homepage": "https://github.com/monicahq/monica",
-      "category": "utilities",
-      "command": "docker run -d -p 4034:80 -v $HOME/docklite/monica:/var/www/html/storage --restart unless-stopped monica:latest"
-    },
-    {
       "name": "freshrss",
       "description": "A self-hosted RSS feed aggregator.",
       "homepage": "https://github.com/FreshRSS/FreshRSS",
@@ -155,6 +141,20 @@
       "command": "docker run -d -p 4032:8000 -v $HOME/docklite/plausible:/plausible/data --restart unless-stopped plausible/analytics:latest"
     },
     {
+      "name": "photoprism",
+      "description": "AI-powered photos app for browsing, organizing, and sharing your photo collection.",
+      "homepage": "https://github.com/photoprism/photoprism",
+      "category": "media",
+      "command": "docker run -d -p 4024:2342 -v $HOME/docklite/photoprism:/photoprism/storage --restart unless-stopped photoprism/photoprism:latest"
+    },
+    {
+      "name": "monica",
+      "description": "Personal CRM to organize contacts and relationships.",
+      "homepage": "https://github.com/monicahq/monica",
+      "category": "utilities",
+      "command": "docker run -d -p 4034:80 -v $HOME/docklite/monica:/var/www/html/storage --restart unless-stopped monica:latest"
+    },
+    {
       "name": "spotdl",
       "description": "Downloads music from Spotify and other streaming services.",
       "homepage": "https://github.com/spotDL/spotify-downloader",
@@ -167,6 +167,90 @@
       "homepage": "https://github.com/koel/koel",
       "category": "media",
       "command": "docker run -d -p 4049:80 -v $HOME/docklite/koel:/data --restart unless-stopped phanan/koel"
+    },
+    {
+      "name": "postgres",
+      "description": "PostgreSQL database server for robust data storage",
+      "homepage": "https://hub.docker.com/_/postgres",
+      "category": "database",
+      "command": "docker run -d -p 4050:5432 -e POSTGRES_PASSWORD=password -v $HOME/docklite/postgres:/var/lib/postgresql/data --restart unless-stopped postgres:latest"
+    },
+    {
+      "name": "mysql",
+      "description": "MySQL database server for web applications",
+      "homepage": "https://hub.docker.com/_/mysql",
+      "category": "database", 
+      "command": "docker run -d -p 4051:3306 -e MYSQL_ROOT_PASSWORD=password -v $HOME/docklite/mysql:/var/lib/mysql --restart unless-stopped mysql:latest"
+    },
+    {
+      "name": "redis",
+      "description": "In-memory data structure store for caching",
+      "homepage": "https://hub.docker.com/_/redis",
+      "category": "database",
+      "command": "docker run -d -p 4052:6379 -v $HOME/docklite/redis:/data --restart unless-stopped redis:latest"
+    },
+    {
+      "name": "nextcloud",
+      "description": "Self-hosted cloud storage and collaboration platform",
+      "homepage": "https://github.com/nextcloud/docker",
+      "category": "filesharing",
+      "command": "docker run -d -p 4053:80 -v $HOME/docklite/nextcloud:/var/www/html --restart unless-stopped nextcloud:latest"
+    },
+    {
+      "name": "mattermost",
+      "description": "Open-source team communication and collaboration platform",
+      "homepage": "https://github.com/mattermost/mattermost-server",
+      "category": "communication",
+      "command": "docker run -d -p 4054:8065 --restart unless-stopped mattermost/mattermost-preview"
+    },
+    {
+      "name": "matrix-synapse",
+      "description": "Decentralized chat server compatible with Element and other Matrix clients",
+      "homepage": "https://github.com/matrix-org/synapse",
+      "category": "communication",
+      "command": "docker run -d -p 4055:8008 -v $HOME/docklite/matrix:/data --restart unless-stopped matrixdotorg/synapse:latest"
+    },
+    {
+      "name": "homeassistant",
+      "description": "Open-source home automation platform",
+      "homepage": "https://github.com/home-assistant/core",
+      "category": "automation",
+      "command": "docker run -d -p 4056:8123 -v $HOME/docklite/homeassistant:/config --restart unless-stopped homeassistant/home-assistant:stable"
+    },
+    {
+      "name": "nodered",
+      "description": "Flow-based programming tool for IoT and automation",
+      "homepage": "https://github.com/node-red/node-red-docker",
+      "category": "automation",
+      "command": "docker run -d -p 4057:1880 -v $HOME/docklite/nodered:/data --restart unless-stopped nodered/node-red:latest"
+    },
+    {
+      "name": "zigbee2mqtt",
+      "description": "Bridge between Zigbee devices and MQTT for home automation",
+      "homepage": "https://github.com/Koenkk/zigbee2mqtt",
+      "category": "automation",
+      "command": "docker run -d -p 4058:8080 -v $HOME/docklite/zigbee2mqtt:/app/data --restart unless-stopped koenkk/zigbee2mqtt:latest"
+    },
+    {
+      "name": "invoiceninja",
+      "description": "Self-hosted invoicing and billing application",
+      "homepage": "https://github.com/invoiceninja/invoiceninja",
+      "category": "business",
+      "command": "docker run -d -p 4073:80 --restart unless-stopped invoiceninja/invoiceninja:latest"
+    },
+    {
+      "name": "bookstack",
+      "description": "Self-hosted wiki and knowledge base platform",
+      "homepage": "https://github.com/BookStackApp/BookStack",
+      "category": "utilities",
+      "command": "docker run -d -p 4074:80 -v $HOME/docklite/bookstack:/config --restart unless-stopped linuxserver/bookstack:latest"
+    },
+    {
+      "name": "wallabag",
+      "description": "Self-hosted read-later application",
+      "homepage": "https://github.com/wallabag/wallabag",
+      "category": "utilities",
+      "command": "docker run -d -p 4075:80 -v $HOME/docklite/wallabag:/var/www/wallabag/data --restart unless-stopped wallabag/wallabag:latest"
     }
   ]
 }
