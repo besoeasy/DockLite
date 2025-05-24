@@ -286,6 +286,118 @@
       "homepage": "https://github.com/jiftechnify/nostr-wine",
       "category": "communication",
       "command": "docker run -d -p 4080:3000 --restart unless-stopped ghcr.io/jiftechnify/nostr-wine:latest"
+    },
+    {
+      "name": "bitcoin-core",
+      "description": "Bitcoin Core full node for running your own Bitcoin network node",
+      "homepage": "https://github.com/bitcoin/bitcoin",
+      "category": "cryptocurrency",
+      "command": "docker run -d -p 4081:8333 -p 4082:8332 -v $HOME/docklite/bitcoin:/home/bitcoin/.bitcoin --restart unless-stopped ruimarinho/bitcoin-core:latest"
+    },
+    {
+      "name": "electrs",
+      "description": "Efficient Electrum server implementation for Bitcoin blockchain indexing",
+      "homepage": "https://github.com/romanz/electrs",
+      "category": "cryptocurrency",
+      "command": "docker run -d -p 4083:50001 -v $HOME/docklite/electrs:/data -v $HOME/docklite/bitcoin:/bitcoin --restart unless-stopped getumbrel/electrs:latest"
+    },
+    {
+      "name": "btc-rpc-explorer",
+      "description": "Bitcoin blockchain explorer with RPC interface for browsing transactions and blocks",
+      "homepage": "https://github.com/janoside/btc-rpc-explorer",
+      "category": "cryptocurrency",
+      "command": "docker run -d -p 4084:3002 -e BTCEXP_HOST=0.0.0.0 --restart unless-stopped janoside/btc-rpc-explorer:latest"
+    },
+    {
+      "name": "mempool",
+      "description": "Self-hosted Bitcoin mempool and blockchain explorer",
+      "homepage": "https://github.com/mempool/mempool",
+      "category": "cryptocurrency",
+      "command": "docker run -d -p 4085:8080 --restart unless-stopped mempool/frontend:latest"
+    },
+    {
+      "name": "lnd",
+      "description": "Lightning Network Daemon for Bitcoin Lightning Network payments",
+      "homepage": "https://github.com/lightningnetwork/lnd",
+      "category": "cryptocurrency",
+      "command": "docker run -d -p 4086:9735 -p 4087:10009 -v $HOME/docklite/lnd:/home/lnd/.lnd --restart unless-stopped lightninglabs/lnd:latest"
+    },
+    {
+      "name": "thunderhub",
+      "description": "Web interface for managing Lightning Network node (LND)",
+      "homepage": "https://github.com/apotdevin/thunderhub",
+      "category": "cryptocurrency",
+      "command": "docker run -d -p 4088:3000 -v $HOME/docklite/thunderhub:/data --restart unless-stopped apotdevin/thunderhub:latest"
+    },
+    {
+      "name": "btcpayserver",
+      "description": "Self-hosted Bitcoin payment processor for accepting Bitcoin payments",
+      "homepage": "https://github.com/btcpayserver/btcpayserver",
+      "category": "cryptocurrency",
+      "command": "docker run -d -p 4089:49392 -v $HOME/docklite/btcpayserver:/datadir --restart unless-stopped btcpayserver/btcpayserver:latest"
+    },
+    {
+      "name": "lnbits",
+      "description": "Free and open-source Lightning Network wallet and accounts system",
+      "homepage": "https://github.com/lnbits/lnbits",
+      "category": "cryptocurrency",
+      "command": "docker run -d -p 4090:5000 -v $HOME/docklite/lnbits:/app/data --restart unless-stopped lnbits/lnbits:latest"
+    },
+    {
+      "name": "joinmarket",
+      "description": "Bitcoin privacy tool using CoinJoin for enhanced transaction privacy",
+      "homepage": "https://github.com/JoinMarket-Org/joinmarket-clientserver",
+      "category": "cryptocurrency",
+      "command": "docker run -d -p 4091:62601 -v $HOME/docklite/joinmarket:/root/.joinmarket --restart unless-stopped joinmarket/joinmarket-clientserver:latest"
+    },
+    {
+      "name": "syncthing",
+      "description": "Continuous file synchronization program for keeping files in sync across devices",
+      "homepage": "https://github.com/syncthing/syncthing",
+      "category": "filesharing",
+      "command": "docker run -d -p 4092:8384 -p 4093:22000 -v $HOME/docklite/syncthing:/var/syncthing --restart unless-stopped syncthing/syncthing:latest"
+    },
+    {
+      "name": "authelia",
+      "description": "Authentication and authorization server for securing applications with 2FA and SSO",
+      "homepage": "https://github.com/authelia/authelia",
+      "category": "security",
+      "command": "docker run -d -p 4094:9091 -v $HOME/docklite/authelia:/config --restart unless-stopped authelia/authelia:latest"
+    },
+    {
+      "name": "smokeping",
+      "description": "Network latency monitoring tool for tracking connection quality over time",
+      "homepage": "https://github.com/linuxserver/docker-smokeping",
+      "category": "networking",
+      "command": "docker run -d -p 4095:80 -v $HOME/docklite/smokeping:/config -v $HOME/docklite/smokeping/data:/data --restart unless-stopped linuxserver/smokeping:latest"
+    },
+    {
+      "name": "resilio-sync",
+      "description": "Fast, reliable file sync and share solution using BitTorrent protocol",
+      "homepage": "https://www.resilio.com/individuals/",
+      "category": "filesharing",
+      "command": "docker run -d -p 4096:8888 -p 4097:55555 -v $HOME/docklite/resilio-sync:/mnt/sync --restart unless-stopped resilio/sync:latest"
+    },
+    {
+      "name": "n8n",
+      "description": "Workflow automation tool for connecting apps and services with visual workflows",
+      "homepage": "https://github.com/n8n-io/n8n",
+      "category": "automation",
+      "command": "docker run -d -p 4098:5678 -v $HOME/docklite/n8n:/home/node/.n8n --restart unless-stopped n8nio/n8n:latest"
+    },
+    {
+      "name": "strapi",
+      "description": "Open-source headless CMS for building APIs and managing content",
+      "homepage": "https://github.com/strapi/strapi",
+      "category": "development",
+      "command": "docker run -d -p 4099:1337 -v $HOME/docklite/strapi:/opt/app --restart unless-stopped strapi/strapi:latest"
+    },
+    {
+      "name": "pihole",
+      "description": "Network-wide ad blocking DNS server for blocking ads and trackers",
+      "homepage": "https://github.com/pi-hole/pi-hole",
+      "category": "security",
+      "command": "docker run -d -p 4100:80 -p 4101:53/tcp -p 4101:53/udp -v $HOME/docklite/pihole:/etc/pihole -v $HOME/docklite/pihole/dnsmasq:/etc/dnsmasq.d -e WEBPASSWORD=admin --restart unless-stopped pihole/pihole:latest"
     }
   ]
 }
