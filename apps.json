@@ -111,6 +111,62 @@
       "homepage": "https://github.com/dani-garcia/vaultwarden",
       "category": "utilities",
       "command": "docker run -d -p 4018:80 -v $HOME/docklite/vaultwarden:/data --restart unless-stopped vaultwarden/server:latest"
+    },
+    {
+      "name": "linkding",
+      "description": "A simple, self-hosted bookmark manager with a clean interface.",
+      "homepage": "https://github.com/sissbruecker/linkding",
+      "category": "utilities",
+      "command": "docker run -d -p 4019:9090 -v $HOME/docklite/linkding:/data --restart unless-stopped sissbruecker/linkding:latest"
+    },
+    {
+      "name": "whoogle",
+      "description": "A self-hosted, ad-free Google search proxy for privacy.",
+      "homepage": "https://github.com/benbusby/whoogle-search",
+      "category": "utilities",
+      "command": "docker run -d -p 4020:5000 --restart unless-stopped benbusby/whoogle-search:latest"
+    },
+    {
+      "name": "photoprism",
+      "description": "AI-powered photos app for browsing, organizing, and sharing your photo collection.",
+      "homepage": "https://github.com/photoprism/photoprism",
+      "category": "media",
+      "command": "docker run -d -p 4024:2342 -v $HOME/docklite/photoprism:/photoprism/storage --restart unless-stopped photoprism/photoprism:latest"
+    },
+    {
+      "name": "monica",
+      "description": "Personal CRM to organize contacts and relationships.",
+      "homepage": "https://github.com/monicahq/monica",
+      "category": "utilities",
+      "command": "docker run -d -p 4034:80 -v $HOME/docklite/monica:/var/www/html/storage --restart unless-stopped monica:latest"
+    },
+    {
+      "name": "freshrss",
+      "description": "A self-hosted RSS feed aggregator.",
+      "homepage": "https://github.com/FreshRSS/FreshRSS",
+      "category": "utilities",
+      "command": "docker run -d -p 4026:80 -v $HOME/docklite/freshrss:/var/www/FreshRSS/data --restart unless-stopped freshrss/freshrss"
+    },
+    {
+      "name": "plausible",
+      "description": "Simple, privacy-friendly web analytics.",
+      "homepage": "https://github.com/plausible/analytics",
+      "category": "utilities",
+      "command": "docker run -d -p 4032:8000 -v $HOME/docklite/plausible:/plausible/data --restart unless-stopped plausible/analytics:latest"
+    },
+    {
+      "name": "spotdl",
+      "description": "Downloads music from Spotify and other streaming services.",
+      "homepage": "https://github.com/spotDL/spotify-downloader",
+      "category": "media",
+      "command": "docker run -d -p 4045:8800 -v $HOME/docklite/spotdl:/music --restart unless-stopped spotdl/spotify-downloader"
+    },
+    {
+      "name": "koel",
+      "description": "Simple web-based personal audio streaming service.",
+      "homepage": "https://github.com/koel/koel",
+      "category": "media",
+      "command": "docker run -d -p 4049:80 -v $HOME/docklite/koel:/data --restart unless-stopped phanan/koel"
     }
   ]
 }
